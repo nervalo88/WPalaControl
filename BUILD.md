@@ -28,6 +28,8 @@ Box project (Fusion 360 & STL) can be found into `box` folder
 
 ### Firmware
 
-Source code can be compiled using VSCode/PlatformIO and flashed onto a D1 Mini  
+Source code can be compiled using VSCode/PlatformIO and flashed onto a D1 Mini or an ESP32-C3 SuperMini. Select the `d1_mini` or `esp32c3_supermini` PlatformIO environment, respectively.
+
+For the ESP32-C3 SuperMini, use GPIO4 as UART RX and GPIO5 as UART TX; cross RX/TX when wiring to the adapter.
 Or  
 Download latest release in [Release section](https://github.com/Domochip/WPalaControl/releases)

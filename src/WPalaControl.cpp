@@ -2,8 +2,14 @@
 
 #ifdef ESP8266
 #define PALA_SERIAL Serial
+#elif defined(PALA_ESP32_C3_SUPERMINI)
+#define PALA_SERIAL Serial1
+#define PALA_SERIAL_RX_PIN 4
+#define PALA_SERIAL_TX_PIN 5
 #else
 #define PALA_SERIAL Serial2
+#define PALA_SERIAL_RX_PIN 23
+#define PALA_SERIAL_TX_PIN 5
 #endif
 
 // Serial management functions -------------
@@ -15,7 +21,7 @@ int WPalaControl::myOpenSerial(uint32_t baudrate)
   PALA_SERIAL.pins(15, 13); // swap ESP8266 pins to alternative positions (D7(GPIO13)(RX)/D8(GPIO15)(TX))
   pinMode(1, INPUT);
 #else
-  PALA_SERIAL.begin(baudrate, SERIAL_8N1, 23, 5); // set ESP32 pins to match hat position (IO23(RX)/IO5(TX))
+  PALA_SERIAL.begin(baudrate, SERIAL_8N1, PALA_SERIAL_RX_PIN, PALA_SERIAL_TX_PIN);
 #endif
   return 0;
 }
@@ -27,8 +33,8 @@ void WPalaControl::myCloseSerial()
   pinMode(15, OUTPUT);
   digitalWrite(15, HIGH);
 #else
-  pinMode(5, OUTPUT);
-  digitalWrite(5, HIGH);
+  pinMode(PALA_SERIAL_TX_PIN, OUTPUT);
+  digitalWrite(PALA_SERIAL_TX_PIN, HIGH);
 #endif
 }
 int WPalaControl::mySelectSerial(unsigned long timeout)
